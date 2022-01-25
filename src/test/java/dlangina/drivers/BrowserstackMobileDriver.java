@@ -32,7 +32,7 @@ public class BrowserstackMobileDriver implements WebDriverProvider {
     // Set other BrowserStack capabilities
     desiredCapabilities.setCapability("project", "First Java Project");
     desiredCapabilities.setCapability("build", "browserstack-build-1");
-    desiredCapabilities.setCapability("name", "first_test");
+    desiredCapabilities.setCapability("name", browserStackConfig.buildName());
 
     // Initialise the remote Webdriver using BrowserStack remote URL
     // and desired capabilities defined above
