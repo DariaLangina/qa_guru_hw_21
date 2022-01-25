@@ -1,25 +1,29 @@
 package dlangina.drivers;
 
 import com.codeborne.selenide.WebDriverProvider;
+import dlangina.config.BrowserStackConfig;
 import io.appium.java_client.android.AndroidDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.annotation.Nonnull;
+import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class BrowserstackMobileDriver implements WebDriverProvider {
 
+  public static BrowserStackConfig browserStackConfig = ConfigFactory.create(
+      BrowserStackConfig.class, System.getProperties());
+
   @Nonnull
   @Override
   public WebDriver createDriver(DesiredCapabilities desiredCapabilities) {
-
     // Set your access credentials
-    desiredCapabilities.setCapability("browserstack.user", "darialangina_OmWiPT");
-    desiredCapabilities.setCapability("browserstack.key", "8hszBadbqtdFVbh9JLuC");
+    desiredCapabilities.setCapability("browserstack.user", browserStackConfig.user());
+    desiredCapabilities.setCapability("browserstack.key", browserStackConfig.key());
 
     // Set URL of the application under test
-    desiredCapabilities.setCapability("app", "bs://c700ce60cf13ae8ed97705a55b8e022f13c5827c");
+    desiredCapabilities.setCapability("app", browserStackConfig.app());
 
     // Specify device and os_version for testing
     desiredCapabilities.setCapability("device", "Google Pixel 3");
@@ -38,7 +42,7 @@ public class BrowserstackMobileDriver implements WebDriverProvider {
 
   public static URL getBrowserStackUrl() {
     try {
-      return new URL("http://hub.browserstack.com/wd/hub");
+      return new URL(browserStackConfig.browserStackUrl());
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
